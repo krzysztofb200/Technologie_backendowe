@@ -31,7 +31,7 @@ interface UserRepository extends JpaRepository<User, Long> {
     }
 
     default Optional<User> updateUser(long Id, User updatedUser) {
-        return findById(Id).map(user -> {
+        return findAll().stream().filter(user -> Objects.equals(user.getId(), Id)).map(user -> {
             if(updatedUser.getEmail() != null){
                 user.setEmail(updatedUser.getEmail());
             }
@@ -45,7 +45,7 @@ interface UserRepository extends JpaRepository<User, Long> {
                 user.setLastName(updatedUser.getLastName());
             }
             return save(user);
-        });
+        }).findFirst();
     }
 
     default Optional<User> findByDetails(Long Id, String fullName, LocalDate birthdate, String email) {

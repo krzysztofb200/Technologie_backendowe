@@ -47,18 +47,25 @@ class UserServiceImpl implements UserService, UserProvider {
         userRepository.deleteById(userId);
     }
 
+    @Override
     public List<User> getAllUsersByAgeOlderThan(final LocalDate time) {
         return userRepository.findAllByAgeOlderThan(time);
     }
 
+    @Override
     public List<User> getAllUsersByEmailPart(final String emailPart) {
         return userRepository.findAllByEmailPart(emailPart);
     }
 
+    @Override
     public Optional<User> updateUser(final Long userId, final User updatedUser) {
+        if (updatedUser.getId() != null) {
+            throw new IllegalArgumentException("User has already DB ID, update is not permitted!");
+        }
         return userRepository.updateUser(userId, updatedUser);
     }
 
+    @Override
     public Optional<User> getUserDetails(final Long id, final String fullName, final LocalDate birthdate, final String email ) {
         int paramCount = 0;
         if (id != null) paramCount++;
