@@ -1,12 +1,12 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
-import com.capgemini.wsb.fitnesstracker.user.api.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -17,15 +17,34 @@ class TrainingController {
     private final TrainingServiceImpl trainingService;
     private final TrainingMapper trainingMapper;
 
-    @GetMapping("/{id}")
-    public Optional<User> getTrainingById(@PathVariable("id") Long id){
-        return trainingService.getTraining(id);
+    @GetMapping
+    public List<TrainingDTO> getAllTrainings(){
+        return trainingService.getAllTrainings().stream().map(trainingMapper::toDTO).toList();
     }
 
-//- [ ] wyszukiwanie wszystkich treningów
-//- [ ] wyszukiwanie treningów dla określonego Użytkownika:
-//- [ ] wyszukiwanie wszystkich treningów zakończonych (po konkretnej zdefiniowanej dacie)
-//- [ ] wyszukiwanie wszystkich treningów dla konkretnej aktywności (np. wszystkie treningi biegowe)
-//- [ ] utworzenie nowego treningu
-//- [ ] aktualizacja treningu (dowolnie wybrane pole np. dystans)
+    @GetMapping(value = "/{userId}")
+    public List<TrainingDTO> getTrainingById(@PathVariable("userId") Long userId) {
+        return trainingService.getTrainingById(userId).stream().map(trainingMapper::toDTO).toList();
+    }
+
+    @GetMapping(value = "/finished/{afterTime}")
+    public List<TrainingDTO> getAllTrainingsAfterDate(@PathVariable("afterTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time){
+        return trainingService.getAllTrainingsAfterDate(time).stream().map(trainingMapper::toDTO).toList();
+    }
+
+    @GetMapping("/activityType")
+    public List<TrainingDTO> getAllTrainingsByActivity(@RequestParam("activityType") ActivityType activityType){
+        return trainingService.getAllTrainingsByActivity(activityType).stream().map(trainingMapper::toDTO).toList();
+    }
+
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public TrainingDTO createTraining(@RequestBody TrainingDTO trainingDTO){
+        return trainingMapper.toDTO(trainingService.createTraining(trainingMapper.toEntity(trainingDTO)));
+    }
+
+    @PutMapping(value ="/{trainingId}")
+    public Optional<TrainingDTO> updateTraining(@PathVariable("trainingId") Long trainingId, @RequestBody TrainingDTO trainingDTO){
+        return trainingService.updateTraining(trainingId, trainingMapper.toEntity(trainingDTO)).map(trainingMapper::toDTO);
+    }
 }
