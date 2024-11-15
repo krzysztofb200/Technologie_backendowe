@@ -18,33 +18,33 @@ class TrainingController {
     private final TrainingMapper trainingMapper;
 
     @GetMapping
-    public List<TrainingDTO> getAllTrainings(){
+    public List<TrainingDto> getAllTrainings(){
         return trainingService.getAllTrainings().stream().map(trainingMapper::toDTO).toList();
     }
 
     @GetMapping(value = "/{userId}")
-    public List<TrainingDTO> getTrainingById(@PathVariable("userId") Long userId) {
+    public List<TrainingDto> getTrainingById(@PathVariable("userId") Long userId) {
         return trainingService.getTrainingById(userId).stream().map(trainingMapper::toDTO).toList();
     }
 
     @GetMapping(value = "/finished/{afterTime}")
-    public List<TrainingDTO> getAllTrainingsAfterDate(@PathVariable("afterTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time){
+    public List<TrainingDto> getAllTrainingsAfterDate(@PathVariable("afterTime") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) Date time){
         return trainingService.getAllTrainingsAfterDate(time).stream().map(trainingMapper::toDTO).toList();
     }
 
     @GetMapping("/activityType")
-    public List<TrainingDTO> getAllTrainingsByActivity(@RequestParam("activityType") ActivityType activityType){
+    public List<TrainingDto> getAllTrainingsByActivity(@RequestParam("activityType") ActivityType activityType){
         return trainingService.getAllTrainingsByActivity(activityType).stream().map(trainingMapper::toDTO).toList();
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public TrainingDTO createTraining(@RequestBody TrainingDTO trainingDTO){
-        return trainingMapper.toDTO(trainingService.createTraining(trainingMapper.toEntity(trainingDTO)));
+    public TrainingDto createTraining(@RequestBody TrainingUserDto trainingDto){
+        return trainingMapper.toDTO(trainingService.createTraining(trainingMapper.toEntity(trainingDto)));
     }
 
     @PutMapping(value ="/{trainingId}")
-    public Optional<TrainingDTO> updateTraining(@PathVariable("trainingId") Long trainingId, @RequestBody TrainingDTO trainingDTO){
+    public Optional<TrainingDto> updateTraining(@PathVariable("trainingId") Long trainingId, @RequestBody TrainingUserDto trainingDTO){
         return trainingService.updateTraining(trainingId, trainingMapper.toEntity(trainingDTO)).map(trainingMapper::toDTO);
     }
 }

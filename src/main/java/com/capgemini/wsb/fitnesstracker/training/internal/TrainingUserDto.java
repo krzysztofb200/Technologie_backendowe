@@ -1,19 +1,22 @@
 package com.capgemini.wsb.fitnesstracker.training.internal;
 
-import com.capgemini.wsb.fitnesstracker.user.api.UserDto;
+import jakarta.annotation.Nullable;
 
 import java.util.Date;
 
-public class TrainingDTO {
-    private final UserDto user;
+public class TrainingUserDto {
+    @Nullable
+    private final Long trainingId;
+    private final Long userId;
     private final Date startTime;
     private final Date endTime;
     private final ActivityType activityType;
     private final double distance;
     private final double averageSpeed;
 
-    public TrainingDTO(UserDto user, Date startTime, Date endTime, ActivityType activityType, double distance, double averageSpeed) {
-        this.user = user;
+    public TrainingUserDto(@Nullable Long trainingId, Long userId, Date startTime, Date endTime, ActivityType activityType, double distance, double averageSpeed) {
+        this.trainingId = trainingId;
+        this.userId = userId;
         this.startTime = startTime;
         this.endTime = endTime;
         this.activityType = activityType;
@@ -21,8 +24,8 @@ public class TrainingDTO {
         this.averageSpeed = averageSpeed;
     }
 
-    public UserDto getUser() {
-        return user;
+    public Long getUserId() {
+        return userId;
     }
 
     public Date getStartTime() {
@@ -45,15 +48,8 @@ public class TrainingDTO {
         return averageSpeed;
     }
 
-    @Override
-    public String toString() {
-        return "TrainingDTO{" +
-                "user=" + user +
-                ", startTime=" + startTime +
-                ", endTime=" + endTime +
-                ", activityType=" + activityType +
-                ", distance=" + distance +
-                ", averageSpeed=" + averageSpeed +
-                '}';
+    @Nullable
+    public Long getTrainingId() {
+        return trainingId;
     }
 }

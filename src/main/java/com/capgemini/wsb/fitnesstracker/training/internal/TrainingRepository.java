@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 interface TrainingRepository extends JpaRepository<Training, Long> {
@@ -44,7 +45,24 @@ interface TrainingRepository extends JpaRepository<Training, Long> {
      * @param email email of the user to search
      * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
      */
-    default Optional<Training> updateTraining(Long trainingId, Training training){
-        return findAll().stream().findFirst();
+    default Optional<Training> updateTraining(Long trainingId, Training updatedTraining){
+        return findAll().stream().filter(training -> Objects.equals(training.getId(), trainingId)).map(training -> {
+            if(updatedTraining.getEndTime() != null){
+                training.setEndTime(updatedTraining.getEndTime());
+            }
+            if(updatedTraining.getStartTime() != null){
+                training.setStartTime(updatedTraining.getStartTime());
+            }
+            if(updatedTraining.getActivityType() != null){
+                training.setActivityType(updatedTraining.getActivityType());
+            }
+            if(updatedTraining.getAverageSpeed() != training.getAverageSpeed()){
+                training.setAverageSpeed(updatedTraining.getAverageSpeed());
+            }
+            if(updatedTraining.getDistance() != training.getDistance()){
+                training.setDistance(updatedTraining.getDistance());
+            }
+            return save(training);
+        }).findFirst();
     }
 }
