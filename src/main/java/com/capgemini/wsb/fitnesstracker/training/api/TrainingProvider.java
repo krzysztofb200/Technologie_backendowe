@@ -8,64 +8,48 @@ import java.util.Optional;
 
 public interface TrainingProvider {
 
-    /**TODO
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+    /**
+     * Retrieves all trainings.
      *
-     * @param trainingId id of the training to be searched
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @return A {@link List} containing the all found trainings,
      */
     List<Training> getAllTrainings();
 
     /**
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+     * Retrieves all trainings for user.
      *
-     * @param trainingId id of the training to be searched
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @param userId id of the user to search his trainings
+     * @return {@link List} containing found trainings of user
      */
     List<Training> getTrainingById(Long userId);
 
     /**
-     * TODO
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+     * Retrieves all trainings ended after date.
      *
-     * @param trainingId id of the training to be searched
-     * @param time
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @param time date after which trainings ended
+     * @return {@link List} containing all found trainings
      */
     List<Training> getAllTrainingsAfterDate(Date time);
 
     /**
-     * TODO
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+     * Retrieves all trainings by activity.
      *
-     * @param trainingId   id of the training to be searched
-     * @param activityType
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @param activityType type of activity of the training
+     * @return {@link List} containing all found trainings
      */
     List<Training> getAllTrainingsByActivity(ActivityType activityType);
 
-    /**TODO
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+    /**
+     * Creates {@link Training}
      *
-     * @param trainingId id of the training to be searched
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @return An {@link Training} that has been created
      */
     Training createTraining(Training training);
 
     /**
-     * TODO
-     * Retrieves a training based on their ID.
-     * If the user with given ID is not found, then {@link Optional#empty()} will be returned.
+     * updates {@link Training}.
      *
-     * @param trainingId  id of the training to be searched
-     * @param id
-     * @param trainingDTO
-     * @return An {@link Optional} containing the located Training, or {@link Optional#empty()} if not found
+     * @return An {@link Optional} {@link Training} that has been updated, or {@link Optional#empty()} if not found
      */
     Optional<Training> updateTraining(Long id, Training training);
 }

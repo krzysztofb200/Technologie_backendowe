@@ -1,0 +1,111 @@
+{
+	"info": {
+		"_postman_id": "1e5ea475-5891-4afc-8ef9-5a3f9de3988c",
+		"name": "LAB03_1",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "17828465"
+	},
+	"item": [
+		{
+			"name": "getAllTrainings",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/v1/trainings"
+			},
+			"response": []
+		},
+		{
+			"name": "getTraining",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/v1/trainings/2"
+			},
+			"response": []
+		},
+		{
+			"name": "getTrainingsEndedAfterDate",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "localhost:8080/v1/trainings/finished/2024-01-18T08:30:00.000+00:00"
+			},
+			"response": []
+		},
+		{
+			"name": "getTrainingsByActivity",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "localhost:8080/v1/trainings/activityType?activityType=RUNNING",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"v1",
+						"trainings",
+						"activityType"
+					],
+					"query": [
+						{
+							"key": "activityType",
+							"value": "RUNNING"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createTraining",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"userId\": 2,\r\n    \"startTime\": \"2024-01-20T07:00:00.000+00:00\",\r\n    \"endTime\": \"2024-01-20T08:30:00.000+00:00\",\r\n    \"activityType\": \"CYCLING\",\r\n    \"distance\": 100.5,\r\n    \"averageSpeed\": 15.2\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/trainings"
+			},
+			"response": []
+		},
+		{
+			"name": "updateTraining",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\"userId\": 1,\r\n\"startTime\": \"2023-04-01T10:00:00\",\r\n\"endTime\": \"2023-04-01T11:00:00\",\r\n\"activityType\": \"TENNIS\",\r\n\"distance\": 0.0,\r\n\"averageSpeed\": 0.0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "localhost:8080/v1/trainings/1"
+			},
+			"response": []
+		}
+	]
+}
